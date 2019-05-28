@@ -6,18 +6,18 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/fxInfoTitleText"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:background="#0A214B"
         android:gravity="center"
-        android:text="FX"
+        android:text="USD/SEK"
         android:textColor="@android:color/white"
         android:textSize="24sp"
         android:textStyle="bold" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerViewFXList"
+        android:id="@+id/recyclerViewInfo"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>
