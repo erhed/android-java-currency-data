@@ -19,15 +19,23 @@ public class FXDatabase {
     }
 
     public void getPrices(Context context) {
-        for (FXListItem item : mFXList) {
+        for (final FXListItem item : mFXList) {
             getPrice(item.getCurrency1(),item.getCurrency2(), context, 0, new VolleyCallback() {
                 @Override
                 public void onSuccessResponse(String result) {
-                    Log.e("MAINACTIVITY", result);
+                    item.setPrice(Float.parseFloat(result));
                 }
             });
         }
-
+        for (final FXListItem item : mFXList) {
+            getPrice(item.getCurrency1(),item.getCurrency2(), context, 1, new VolleyCallback() {
+                @Override
+                public void onSuccessResponse(String result) {
+                    item.setPreviousPrice(Float.parseFloat(result));
+                    item.setIsUp();
+                }
+            });
+        }
     }
 
     public FXListItem getItem(int index) {
@@ -39,9 +47,14 @@ public class FXDatabase {
     }
 
     private void makeDummyList() {
-        FXListItem item = new FXListItem("EUR","USD", 1.1198f, 1.1138f);
+        FXListItem item = new FXListItem("USD","SEK");
         mFXList.add(item);
-        mFXList.add(item);
+        FXListItem item2 = new FXListItem("EUR","USD");
+        mFXList.add(item2);
+        FXListItem item3 = new FXListItem("GBP","USD");
+        mFXList.add(item3);
+        FXListItem item4 = new FXListItem("EUR","CHF");
+        mFXList.add(item4);
     }
 
 }

@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import java.util.ArrayList;
@@ -30,24 +31,22 @@ public class FXListAdapter extends RecyclerView.Adapter<FXListAdapter.ListItemHo
     @Override
     public void onBindViewHolder(@NonNull ListItemHolder holder, int position) {
         // List item
-        //FXListItem item = mList.get(position);
+        FXListItem item = FXDatabase.shared.getItem(position);
 
-        // Type
-        //holder.mType.setText(item.getType());
+        // Pair
+        String pair = item.getCurrency1() + "/" + item.getCurrency2();
+        holder.mPair.setText(pair);
 
-        // Amount
-        //holder.mAmount.setText(String.valueOf(item.getAmount()));
+        // Price
+        String price = formatPrice(String.valueOf(item.getPrice()));
+        holder.mPrice.setText(price);
 
-        // Set style for checked/unchecked
-        /*if (item.isChecked()) {
-            holder.mContainer.setBackgroundResource(R.color.itemBackgroundChecked);
-            holder.mType.setTextColor(Color.parseColor("#bababa"));
-            holder.mAmount.setTextColor(Color.parseColor("#bababa"));
+        // Arrow
+        if (item.getIsUp() == true) {
+            holder.mArrow.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.arrow_up));
         } else {
-            holder.mContainer.setBackgroundResource(0);
-            holder.mType.setTextColor(Color.parseColor("#000000"));
-            holder.mAmount.setTextColor(Color.parseColor("#000000"));
-        }*/
+            holder.mArrow.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.arrow_down));
+        }
     }
 
     @Override
@@ -59,14 +58,14 @@ public class FXListAdapter extends RecyclerView.Adapter<FXListAdapter.ListItemHo
 
         TextView mPair;
         TextView mPrice;
-        //LinearLayout mContainer;
+        ImageView mArrow;
 
         public ListItemHolder(View view) {
             super(view);
 
             mPair = (TextView) view.findViewById(R.id.fxListPairText);
             mPrice = (TextView) view.findViewById(R.id.fxListPriceText);
-            //mContainer = (LinearLayout) view.findViewById(R.id.shoppingListItemContainer);
+            mArrow = (ImageView) view.findViewById(R.id.fxListArrowImage);
 
             view.setClickable(true);
             view.setOnClickListener(this);
@@ -76,5 +75,15 @@ public class FXListAdapter extends RecyclerView.Adapter<FXListAdapter.ListItemHo
         public void onClick(View view) {
             //mActivity.showDetailView();
         }
+    }
+
+    private String formatPrice(String result) {
+        String price;
+        if (result.length() == 6) {
+            price = result + "0";
+        } else {
+            price = result.substring(0, 7);
+        }
+        return price;
     }
 }
