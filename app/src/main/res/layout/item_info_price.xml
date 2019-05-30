@@ -91,7 +91,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/oneRow2"
@@ -100,7 +101,7 @@
                     android:layout_weight="0.1"
                     android:gravity="left"
                     android:text="1"
-                    android:textColor="#A2A2A2"
+                    android:textColor="#B1B1B1"
                     android:textSize="22sp"
                     app:fontFamily="sans-serif-medium" />
 
@@ -111,7 +112,7 @@
                     android:layout_weight="0.2"
                     android:gravity="left"
                     android:text="EUR"
-                    android:textColor="#A2A2A2"
+                    android:textColor="#B1B1B1"
                     android:textSize="22sp" />
 
                 <TextView
@@ -122,7 +123,7 @@
                     android:gravity="center"
                     android:paddingLeft="8dp"
                     android:text="="
-                    android:textColor="#A2A2A2"
+                    android:textColor="#B1B1B1"
                     android:textSize="22sp" />
 
                 <TextView
@@ -132,7 +133,7 @@
                     android:layout_weight="0.35"
                     android:gravity="right"
                     android:text="1.12435"
-                    android:textColor="#A2A2A2"
+                    android:textColor="#B1B1B1"
                     android:textSize="22sp"
                     app:fontFamily="sans-serif-medium" />
 
@@ -143,7 +144,7 @@
                     android:layout_weight="0.2"
                     android:gravity="right"
                     android:text="USD"
-                    android:textColor="#A2A2A2"
+                    android:textColor="#B1B1B1"
                     android:textSize="22sp" />
 
             </LinearLayout>

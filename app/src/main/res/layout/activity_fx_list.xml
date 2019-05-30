@@ -9,7 +9,7 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:background="#0A214B"
+        android:background="@color/colorPrimary"
         android:gravity="center"
         android:text="FX"
         android:textColor="@android:color/white"
