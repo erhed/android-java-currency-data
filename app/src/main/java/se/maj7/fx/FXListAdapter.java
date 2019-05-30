@@ -42,7 +42,7 @@ public class FXListAdapter extends RecyclerView.Adapter<FXListAdapter.ListItemHo
         holder.mPrice.setText(price);
 
         // Arrow
-        if (item.getIsUp() == true) {
+        if (item.getIsUp()) {
             holder.mArrow.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.arrow_up));
         } else {
             holder.mArrow.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.arrow_down));
@@ -73,7 +73,7 @@ public class FXListAdapter extends RecyclerView.Adapter<FXListAdapter.ListItemHo
 
         @Override
         public void onClick(View view) {
-            //mActivity.showDetailView();
+            mActivity.showDetailView();
         }
     }
 
@@ -81,8 +81,10 @@ public class FXListAdapter extends RecyclerView.Adapter<FXListAdapter.ListItemHo
         String price;
         if (result.length() == 6) {
             price = result + "0";
-        } else {
+        } else if (result.length() >= 7) {
             price = result.substring(0, 7);
+        } else {
+            price = result;
         }
         return price;
     }

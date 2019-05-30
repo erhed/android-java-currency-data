@@ -29,19 +29,25 @@ public class CurrencyPairInfoAdapter extends RecyclerView.Adapter<CurrencyPairIn
     @NonNull
     @Override
     public CurrencyPairInfoAdapter.ListItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView;
 
         switch (viewType) {
             case 0:
-                
+                View price = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_info_price, parent, false);
+                return new ListItemHolder(price);
+            case 1:
+                View chart = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_info_chart, parent, false);
+                return new ListItemHolder(chart);
+            case 2:
+                View bars = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_info_bars, parent, false);
+                return new ListItemHolder(bars);
         }
 
-        return new ListItemHolder(itemView);
+        return new ListItemHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_info_price, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull ListItemHolder holder, int position) {
-        // List item
+        /*// List item
         FXListItem item = FXDatabase.shared.getItem(position);
 
         // Pair
@@ -57,7 +63,7 @@ public class CurrencyPairInfoAdapter extends RecyclerView.Adapter<CurrencyPairIn
             holder.mArrow.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.arrow_up));
         } else {
             holder.mArrow.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.arrow_down));
-        }
+        }*/
     }
 
     @Override
@@ -67,16 +73,16 @@ public class CurrencyPairInfoAdapter extends RecyclerView.Adapter<CurrencyPairIn
 
     public class ListItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView mPair;
-        TextView mPrice;
-        ImageView mArrow;
+        //TextView mPair;
+        //TextView mPrice;
+        //ImageView mArrow;
 
         public ListItemHolder(View view) {
             super(view);
 
-            mPair = (TextView) view.findViewById(R.id.fxListPairText);
-            mPrice = (TextView) view.findViewById(R.id.fxListPriceText);
-            mArrow = (ImageView) view.findViewById(R.id.fxListArrowImage);
+            //mPair = (TextView) view.findViewById(R.id.fxListPairText);
+            //mPrice = (TextView) view.findViewById(R.id.fxListPriceText);
+            //mArrow = (ImageView) view.findViewById(R.id.fxListArrowImage);
 
             view.setClickable(true);
             view.setOnClickListener(this);
@@ -86,15 +92,5 @@ public class CurrencyPairInfoAdapter extends RecyclerView.Adapter<CurrencyPairIn
         public void onClick(View view) {
             //mActivity.showDetailView();
         }
-    }
-
-    private String formatPrice(String result) {
-        String price;
-        if (result.length() == 6) {
-            price = result + "0";
-        } else {
-            price = result.substring(0, 7);
-        }
-        return price;
     }
 }

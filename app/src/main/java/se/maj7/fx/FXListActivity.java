@@ -1,5 +1,6 @@
 package se.maj7.fx;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -44,5 +45,10 @@ public class FXListActivity extends AppCompatActivity {
         // Swipe to delete
         //ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(mAdapter, this));
         //itemTouchHelper.attachToRecyclerView(recyclerView);
+    }
+
+    public void showDetailView() {
+        Intent intent = new Intent(this, CurrencyPairInfoActivity.class);
+        startActivity(intent);
     }
 }
