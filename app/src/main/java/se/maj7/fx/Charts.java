@@ -6,9 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
-import android.widget.ImageView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Charts {
@@ -16,20 +14,22 @@ public class Charts {
     private static int blue = Color.rgb(97, 162, 236);
     private static int red = Color.rgb(236, 97 ,135);
 
-    public static Bitmap getLineChart(/*Double[] monthlyPrices*/) {
+    public static Bitmap getLineChart(/*double[] monthlyPrices*/) {
 
-        Double[] prices = { 9.14325, 9.25467, 9.45023, 9.6543, 9.32043, 9.82345, 9.0, 8.9543, 8.85432, 8.7645, 8.45678, 8.85432 };
+        double[] prices = { 9.14325, 9.25467, 9.45023, 9.6543, 9.32043, 9.82345, 9.0, 8.9543, 8.85432, 8.7645, 8.45678, 8.85432 };
 
         ArrayList<Double> yPositions = new ArrayList<>();
 
-        Double highest = getMaxValue(prices);
-        Double lowest = getMinValue(prices);
-        Double differenceTotal = highest - lowest;
+        // Calculate Y-positions for path
 
-        for (Double month : prices) {
-            Double diffFromHigh = highest - month;
-            Double differenceDivided = differenceTotal / diffFromHigh;
-            Double yPosition = 100 / differenceDivided;
+        double highest = getMaxValue(prices);
+        double lowest = getMinValue(prices);
+        double differenceTotal = highest - lowest;
+
+        for (double month : prices) {
+            double diffFromHigh = highest - month;
+            double differenceDivided = differenceTotal / diffFromHigh;
+            double yPosition = 100 / differenceDivided;
             yPositions.add(yPosition);
         }
 
@@ -45,6 +45,8 @@ public class Charts {
         canvas.drawBitmap(lineChartBitmap, 0, 0, paint);
         canvas.drawColor(Color.WHITE);
 
+        // Draw line
+
         float posX = width / 11.0f;
         float heightMultiplier = height / 100.0f;
 
@@ -54,6 +56,8 @@ public class Charts {
         for (int i = 1; i < 12; i++) {
             path.lineTo(posX * i, yPositions.get(i).floatValue() * heightMultiplier);
         }
+
+        // Line settings
 
         paint.setAntiAlias(true);
         paint.setFilterBitmap(true);
@@ -65,28 +69,32 @@ public class Charts {
         return lineChartBitmap;
     }
 
-    public static Bitmap getBarChart(/*Double current, Double previousDay, Double week, Double month, Double year*/) {
+    public static Bitmap getBarChart(/*double current, double previousDay, double week, double month, double year*/) {
 
-        Double current = 9.35552;
-        Double previousDay = 9.32334;
-        Double week = 9.45674;
-        Double month = 9.12355;
-        Double year = 8.78953;
+        double current = 9.35552;
+        double previousDay = 9.32334;
+        double week = 9.45674;
+        double month = 9.12355;
+        double year = 8.78953;
 
-        Double percentDay = (current > previousDay) ? ((current / previousDay) - 1) * 100 : (1 - (current / previousDay)) * -100;
-        Double percentWeek = (current > week) ? ((current / previousDay) - 1) * 100 : (1 - (current / week)) * -100;
-        Double percentMonth = (current > month) ? ((current / previousDay) - 1) * 100 : (1 - (current / month)) * -100;
-        Double percentYear = (current > year) ? ((current / previousDay) - 1) * 100 : (1 - (current / year)) * -100;
+        // Calculate percent up/down
 
-        //Double[] percentages = { percentDay, percentWeek, percentMonth, percentYear };
-        Double[] percentages = { 0.1, -0.6, 1.8, 2.0 };
+        double percentDay = (current > previousDay) ? ((current / previousDay) - 1) * 100 : (1 - (current / previousDay)) * -100;
+        double percentWeek = (current > week) ? ((current / week) - 1) * 100 : (1 - (current / week)) * -100;
+        double percentMonth = (current > month) ? ((current / month) - 1) * 100 : (1 - (current / month)) * -100;
+        double percentYear = (current > year) ? ((current / year) - 1) * 100 : (1 - (current / year)) * -100;
 
-        Double highest = getMaxValue(percentages);
-        Double lowest = getMinValue(percentages);
-        Double differenceTotal = highest - lowest;
-        Double percentPerPixel = (differenceTotal / 200);
+        double[] percentages = { percentDay, percentWeek, percentMonth, percentYear };
+        //double[] percentages = { -3.1, 0.6, 1.8, 2.0 };
 
-        Double middleY = 0.0;
+        // Calculate baseline and high/low-values
+
+        double highest = getMaxValue(percentages);
+        double lowest = getMinValue(percentages);
+        double differenceTotal = highest - lowest;
+        double percentPerPixel = (differenceTotal / 200);
+
+        double middleY = 0.0;
         if (highest > 0 && lowest < 0) {
             middleY = highest / percentPerPixel;
         } else if (lowest > 0) {
@@ -95,59 +103,68 @@ public class Charts {
             middleY = 0.0;
         }
 
-        // DAY
-        Double[] dayValues = { 0.0, 0.0 }; // top, bottom
-        if (percentages[0] == highest && middleY > 0 && middleY < 200) {
-            dayValues[0] = 0.0;
-            dayValues[1] = middleY;
-        }
-        if (percentages[0] == lowest && middleY > 0 && middleY < 200) {
-            dayValues[0] = middleY;
-            dayValues[1] = 200.0;
-        }
-        if (percentages[0] != highest && percentages[0] != lowest && percentages[0] > 0 && middleY > 0 && middleY < 200) {
-            dayValues[0] = middleY - ((middleY / highest) * percentages[0]);
-            dayValues[1] = middleY;
-        }
-        if (percentages[0] != highest && percentages[0] != lowest && percentages[0] < 0 && middleY > 0 && middleY < 200) {
-            dayValues[0] = middleY;
-            dayValues[1] = middleY + (((200 - middleY) / Math.abs(lowest)) * Math.abs(percentages[0]));
-        }
-        if (middleY == 200 && percentages[0] != highest && percentages[0] != lowest) {
-            dayValues[0] = 200 / ((highest - lowest) / (percentages[0] - lowest));
-            dayValues[1] = 200.0;
-        }
-        if (middleY == 200 && percentages[0] == highest) {
-            dayValues[0] = 0.0;
-            dayValues[1] = 200.0;
-        }
-        if (middleY == 200 && percentages[0] == lowest) {
-            dayValues[0] = 200 - (200 / (highest / percentages[0]));
-            dayValues[1] = 200.0;
-        }
-        if (middleY == 0 && percentages[0] != highest && percentages[0] != lowest) {
-            dayValues[0] = 0.0;
-            dayValues[1] = (200 / differenceTotal) * (percentages[0] - lowest);
-        }
-        if (middleY == 0 && percentages[0] == highest) {
-            dayValues[0] = 0.0;
-            dayValues[1] = (200 / lowest) * (percentages[0]);
-        }
-        if (middleY == 0 && percentages[0] == lowest) {
-            dayValues[0] = 0.0;
-            dayValues[1] = 200.0;
-        }
-        if (percentages[0] == 0) {
-            dayValues[0] = middleY;
-            dayValues[1] = middleY;
+        // Calculate bars top and bottom Y-positions
+
+        double[] topBottomValues = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 }; // top and bottom for each bar (4 bars, 8 values)
+
+        for (int i = 0; i < 4; i++) {
+            if (middleY > 0 && middleY < 200) {
+                if (percentages[i] == highest && middleY > 0 && middleY < 200) {
+                    topBottomValues[i * 2] = 0.0;
+                    topBottomValues[i * 2 + 1] = middleY;
+                }
+                if (percentages[i] == lowest && middleY > 0 && middleY < 200) {
+                    topBottomValues[i * 2] = middleY;
+                    topBottomValues[i * 2 + 1] = 200.0;
+                }
+                if (percentages[i] != highest && percentages[i] != lowest && percentages[i] > 0 && middleY > 0 && middleY < 200) {
+                    topBottomValues[i * 2] = middleY - ((middleY / highest) * percentages[i]);
+                    topBottomValues[i * 2 + 1] = middleY;
+                }
+                if (percentages[i] != highest && percentages[i] != lowest && percentages[i] < 0 && middleY > 0 && middleY < 200) {
+                    topBottomValues[i * 2] = middleY;
+                    topBottomValues[i * 2 + 1] = middleY + (((200 - middleY) / Math.abs(lowest)) * Math.abs(percentages[i]));
+                }
+            }
+            if (middleY == 200) {
+                if (middleY == 200 && percentages[i] != highest && percentages[i] != lowest) {
+                    topBottomValues[i * 2] = 200 / ((highest - lowest) / (percentages[i] - lowest));
+                    topBottomValues[i * 2 + 1] = 200.0;
+                }
+                if (middleY == 200 && percentages[i] == highest) {
+                    topBottomValues[i * 2] = 0.0;
+                    topBottomValues[i * 2 + 1] = 200.0;
+                }
+                if (middleY == 200 && percentages[i] == lowest) {
+                    topBottomValues[i * 2] = 200 - (200 / (highest / percentages[i]));
+                    topBottomValues[i * 2 + 1] = 200.0;
+                }
+            }
+            if (middleY == 0) {
+                if (middleY == 0 && percentages[i] != highest && percentages[i] != lowest) {
+                    topBottomValues[i * 2] = 0.0;
+                    topBottomValues[i * 2 + 1] = (200 / differenceTotal) * (percentages[i] - lowest);
+                }
+                if (middleY == 0 && percentages[i] == highest) {
+                    topBottomValues[i * 2] = 0.0;
+                    topBottomValues[i * 2 + 1] = (200 / lowest) * (percentages[i]);
+                }
+                if (middleY == 0 && percentages[i] == lowest) {
+                    topBottomValues[i * 2] = 0.0;
+                    topBottomValues[i * 2 + 1] = 200.0;
+                }
+            }
+            if (percentages[i] == 0) {
+                topBottomValues[i * 2] = middleY;
+                topBottomValues[i * 2 + 1] = middleY;
+            }
         }
 
+        // Convert values to float from double for use in drawRect
 
+        float[] topBottomY = convertDoublesToFloats(topBottomValues);
 
-
-
-
-
+        // DRAW
 
         Paint paint = new Paint();
 
@@ -157,27 +174,33 @@ public class Charts {
         canvas.drawBitmap(barChartBitmap, 0, 0, paint);
         canvas.drawColor(Color.WHITE);
 
-        paint.setColor(red);
-        canvas.drawRect(new RectF(0,100,25,200), paint);
+        // Draw bars
 
-        paint.setColor(blue);
-        canvas.drawRect(new RectF(50,0,75,100), paint);
+        // DAY
+        if (percentages[0] > 0) { paint.setColor(blue); } else { paint.setColor(red); }
+        canvas.drawRect(new RectF(0, topBottomY[0],25, topBottomY[1]), paint);
 
-        paint.setColor(red);
-        canvas.drawRect(new RectF(100,100,125,170), paint);
+        // WEEK
+        if (percentages[1] > 0) { paint.setColor(blue); } else { paint.setColor(red); }
+        canvas.drawRect(new RectF(50, topBottomY[2],75, topBottomY[3]), paint);
 
-        paint.setColor(blue);
-        canvas.drawRect(new RectF(150,50,175,100), paint);
+        // MONTH
+        if (percentages[2] > 0) { paint.setColor(blue); } else { paint.setColor(red); }
+        canvas.drawRect(new RectF(100, topBottomY[4],125, topBottomY[5]), paint);
 
-        // middle line
+        // YEAR
+        if (percentages[3] > 0) { paint.setColor(blue); } else { paint.setColor(red); }
+        canvas.drawRect(new RectF(150, topBottomY[5],175, topBottomY[6]), paint);
+
+        // BASE LINE
         paint.setColor(Color.BLACK);
-        canvas.drawRect(new RectF(0,100,175,101), paint);
+        canvas.drawRect(new RectF(0, (float) middleY - 1,175,(float) middleY + 1), paint);
 
         return barChartBitmap;
     }
 
-    public static Double getMaxValue(Double[] array) {
-        Double maxValue = array[0];
+    public static double getMaxValue(double[] array) {
+        double maxValue = array[0];
         for (int i = 1; i < array.length; i++) {
             if (array[i] > maxValue) {
                 maxValue = array[i];
@@ -186,13 +209,27 @@ public class Charts {
         return maxValue;
     }
 
-    public static Double getMinValue(Double[] array) {
-        Double minValue = array[0];
+    public static double getMinValue(double[] array) {
+        double minValue = array[0];
         for (int i = 1; i < array.length; i++) {
             if (array[i] < minValue) {
                 minValue = array[i];
             }
         }
         return minValue;
+    }
+
+    public static float[] convertDoublesToFloats(double[] input)
+    {
+        if (input == null)
+        {
+            return null;
+        }
+        float[] output = new float[input.length];
+        for (int i = 0; i < input.length; i++)
+        {
+            output[i] = (float) input[i];
+        }
+        return output;
     }
 }
