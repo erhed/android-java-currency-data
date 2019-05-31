@@ -7,6 +7,6 @@ public class BaseApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        FXDatabase.shared.getPrices(getApplicationContext());
+        //FXDatabase.shared.getPrices(getApplicationContext());
     }
 }

@@ -4,15 +4,16 @@ import java.lang.reflect.Array;
 
 public class CurrencyPairInfoData {
 
-    private double mCurrentPrice;
-    private double mPreviousPrice;
+    private Double mCurrentPrice;
+    private Double mPreviousPrice;
+    private Double[] mMonths;
 
-    private double mDayPercent;
-    private double mWeekPercent;
-    private double mMonthPercent;
-    private double mYearPercent;
+    private Double mDayPercent;
+    private Double mWeekPercent;
+    private Double mMonthPercent;
+    private Double mYearPercent;
 
-    private Array mMonths;
+
 
 
 }

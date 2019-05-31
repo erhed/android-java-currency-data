@@ -23,7 +23,7 @@
             android:padding="40dp">
 
             <ImageView
-                android:id="@+id/barsImageView"
+                android:id="@+id/barImage"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:scaleType="fitXY"
