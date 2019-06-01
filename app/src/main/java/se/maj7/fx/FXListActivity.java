@@ -1,6 +1,8 @@
 package se.maj7.fx;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -22,7 +24,20 @@ public class FXListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fx_list);
 
+        // Hide after some seconds
+        final Handler handler  = new Handler();
+        final Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (FXDatabase.shared.getItemsLoaded() == FXDatabase.shared.getListSize()) {
+                    FXDatabase.shared.resetItemsLoaded();
+                    mAdapter.notifyDataSetChanged();
+                    handler.removeCallbacks(this);
+                }
+            }
+        };
 
+        handler.postDelayed(runnable, 500);
 
         setupRecyclerView();
     }
@@ -47,7 +62,10 @@ public class FXListActivity extends AppCompatActivity {
         //itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
-    public void showDetailView() {
+    public void showDetailView(int position) {
+        FXListItem item = FXDatabase.shared.getItem(position);
+        FXDatabase.shared.getDetailViewData(item.getCurrency1(), item.getCurrency2(), this);
+
         Intent intent = new Intent(this, CurrencyPairInfoActivity.class);
         startActivity(intent);
     }

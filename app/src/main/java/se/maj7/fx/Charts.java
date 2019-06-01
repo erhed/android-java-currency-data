@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -14,9 +15,10 @@ public class Charts {
     private static int blue = Color.rgb(97, 162, 236);
     private static int red = Color.rgb(236, 97 ,135);
 
-    public static Bitmap getLineChart(/*double[] monthlyPrices*/) {
+    public static Bitmap getLineChart(double[] prices) {
 
-        double[] prices = { 9.14325, 9.25467, 9.45023, 9.6543, 9.32043, 9.82345, 9.0, 8.9543, 8.85432, 8.7645, 8.45678, 8.85432 };
+        // test-data
+        //double[] prices = { 9.14325, 9.25467, 9.45023, 9.6543, 9.32043, 9.82345, 9.0, 8.9543, 8.85432, 8.7645, 8.45678, 8.85432 };
 
         ArrayList<Double> yPositions = new ArrayList<>();
 
@@ -51,10 +53,14 @@ public class Charts {
         float heightMultiplier = height / 100.0f;
 
         Path path = new Path();
-        path.moveTo(0, yPositions.get(0).floatValue());
+        path.moveTo(4, yPositions.get(11).floatValue() * heightMultiplier + 4);
 
         for (int i = 1; i < 12; i++) {
-            path.lineTo(posX * i, yPositions.get(i).floatValue() * heightMultiplier);
+            if (i == 11) {
+                path.lineTo(posX * i - 4, yPositions.get(11 - i).floatValue() * heightMultiplier - 4);
+            } else {
+                path.lineTo(posX * i, yPositions.get(11 - i).floatValue() * heightMultiplier);
+            }
         }
 
         // Line settings
@@ -69,13 +75,20 @@ public class Charts {
         return lineChartBitmap;
     }
 
-    public static Bitmap getBarChart(/*double current, double previousDay, double week, double month, double year*/) {
+    public static Bitmap getBarChart(double[] prices) {
 
+        double current = prices[0];
+        double previousDay = prices[1];
+        double week = prices[2];
+        double month = prices[3];
+        double year = prices[4];
+
+        /*// test-data
         double current = 9.35552;
         double previousDay = 9.32334;
-        double week = 9.45674;
+        double week = 9.75674;
         double month = 9.12355;
-        double year = 8.78953;
+        double year = 9.88953;*/
 
         // Calculate percent up/down
 
@@ -143,7 +156,7 @@ public class Charts {
             if (middleY == 0) {
                 if (middleY == 0 && percentages[i] != highest && percentages[i] != lowest) {
                     topBottomValues[i * 2] = 0.0;
-                    topBottomValues[i * 2 + 1] = (200 / differenceTotal) * (percentages[i] - lowest);
+                    topBottomValues[i * 2 + 1] = (200 / lowest) * (percentages[i]);
                 }
                 if (middleY == 0 && percentages[i] == highest) {
                     topBottomValues[i * 2] = 0.0;
@@ -176,21 +189,21 @@ public class Charts {
 
         // Draw bars
 
-        // DAY
-        if (percentages[0] > 0) { paint.setColor(blue); } else { paint.setColor(red); }
-        canvas.drawRect(new RectF(0, topBottomY[0],25, topBottomY[1]), paint);
-
-        // WEEK
-        if (percentages[1] > 0) { paint.setColor(blue); } else { paint.setColor(red); }
-        canvas.drawRect(new RectF(50, topBottomY[2],75, topBottomY[3]), paint);
+        // YEAR
+        if (percentages[3] > 0) { paint.setColor(blue); } else { paint.setColor(red); }
+        canvas.drawRect(new RectF(0, topBottomY[6],25, topBottomY[7]), paint);
 
         // MONTH
         if (percentages[2] > 0) { paint.setColor(blue); } else { paint.setColor(red); }
-        canvas.drawRect(new RectF(100, topBottomY[4],125, topBottomY[5]), paint);
+        canvas.drawRect(new RectF(50, topBottomY[4],75, topBottomY[5]), paint);
 
-        // YEAR
-        if (percentages[3] > 0) { paint.setColor(blue); } else { paint.setColor(red); }
-        canvas.drawRect(new RectF(150, topBottomY[5],175, topBottomY[6]), paint);
+        // WEEK
+        if (percentages[1] > 0) { paint.setColor(blue); } else { paint.setColor(red); }
+        canvas.drawRect(new RectF(100, topBottomY[2],125, topBottomY[3]), paint);
+
+        // DAY
+        if (percentages[0] > 0) { paint.setColor(blue); } else { paint.setColor(red); }
+        canvas.drawRect(new RectF(150, topBottomY[0],175, topBottomY[1]), paint);
 
         // BASE LINE
         paint.setColor(Color.BLACK);

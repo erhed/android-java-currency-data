@@ -1,15 +1,13 @@
 package se.maj7.fx;
 
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import java.util.ArrayList;
 
 
 public class CurrencyPairInfoAdapter extends RecyclerView.Adapter<CurrencyPairInfoAdapter.ListItemHolder> {
@@ -48,12 +46,30 @@ public class CurrencyPairInfoAdapter extends RecyclerView.Adapter<CurrencyPairIn
     @Override
     public void onBindViewHolder(@NonNull ListItemHolder holder, int position) {
 
+        CurrencyPairInfoData data = FXDatabase.shared.getInfoData();
+
         if (position == 1) {
-            holder.chart_chart.setImageBitmap(Charts.getLineChart());
+            holder.chart_chart.setImageBitmap(Charts.getLineChart(data.getPricesForLineChart()));
+            for (int i=0; i<12; i++) {
+                double[] hm = data.getPricesForLineChart();
+                Log.i("PRICES FOR CHART", String.valueOf(hm[i]));
+            }
         }
 
         if (position == 2) {
-            holder.bars_bars.setImageBitmap(Charts.getBarChart());
+            holder.bars_bars.setImageBitmap(Charts.getBarChart(data.getPricesForBars()));
+
+            String[] percent = FXDatabase.shared.getInfoData().getPercentagesForBars();
+
+            String day = percent[0] + "%";
+            String week = percent[1] + "%";
+            String month = percent[2] + "%";
+            String year = percent[3] + "%";
+
+            holder.bars_day.setText(day);
+            holder.bars_week.setText(week);
+            holder.bars_month.setText(month);
+            holder.bars_year.setText(year);
         }
 
         /*// List item

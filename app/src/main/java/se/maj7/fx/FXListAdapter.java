@@ -69,7 +69,7 @@ public class FXListAdapter extends RecyclerView.Adapter<FXListAdapter.ListItemHo
 
         @Override
         public void onClick(View view) {
-            mActivity.showDetailView();
+            mActivity.showDetailView(getAdapterPosition());
         }
     }
 
