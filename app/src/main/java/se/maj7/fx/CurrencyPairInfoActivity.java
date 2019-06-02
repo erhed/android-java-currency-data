@@ -13,6 +13,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.TextView;
 
 import java.util.Timer;
 
@@ -28,6 +29,12 @@ public class CurrencyPairInfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_currency_pair_info);
+
+        CurrencyPairInfoData data = FXDatabase.shared.getInfoData();
+
+        TextView title = (TextView) findViewById(R.id.fxInfoTitleText);
+        String titleString = data.getCurrency1() + "/" + data.getCurrency2();
+        title.setText(titleString);
 
         setupRecyclerView();
 

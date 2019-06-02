@@ -41,12 +41,12 @@
                     android:id="@+id/oneRow1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.1"
+                    android:layout_weight="0.06"
                     android:gravity="left"
                     android:text="1"
                     android:textColor="@android:color/black"
                     android:textSize="22sp"
-                    app:fontFamily="sans-serif-medium" />
+                    app:fontFamily="sans-serif-black" />
 
                 <TextView
                     android:id="@+id/currency1row1"
@@ -78,13 +78,13 @@
                     android:text="0.94352"
                     android:textColor="@android:color/black"
                     android:textSize="22sp"
-                    app:fontFamily="sans-serif-medium" />
+                    app:fontFamily="sans-serif-black" />
 
                 <TextView
                     android:id="@+id/currency2Row1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.2"
+                    android:layout_weight="0.153"
                     android:gravity="right"
                     android:text="EUR"
                     android:textColor="@android:color/black"

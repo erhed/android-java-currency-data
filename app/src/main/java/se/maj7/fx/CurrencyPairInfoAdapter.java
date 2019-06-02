@@ -48,6 +48,12 @@ public class CurrencyPairInfoAdapter extends RecyclerView.Adapter<CurrencyPairIn
 
         CurrencyPairInfoData data = FXDatabase.shared.getInfoData();
 
+        if (position == 0) {
+            holder.price_currency1.setText(data.getCurrency1());
+            holder.price_currency2.setText(data.getCurrency2());
+            holder.price_price.setText(String.format("%.5f", data.getCurrentPrice()));
+        }
+
         if (position == 1) {
             holder.chart_chart.setImageBitmap(Charts.getLineChart(data.getPricesForLineChart()));
             for (int i=0; i<12; i++) {

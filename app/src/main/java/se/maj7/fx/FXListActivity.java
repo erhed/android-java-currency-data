@@ -3,6 +3,7 @@ package se.maj7.fx;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -11,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.view.View;
 
 import java.util.ArrayList;
 
@@ -23,6 +25,14 @@ public class FXListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fx_list);
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //newList();
+            }
+        });
 
         // Hide after some seconds
         final Handler handler  = new Handler();
@@ -52,14 +62,14 @@ public class FXListActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         // Add dividing line between items in the list
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        recyclerView.addItemDecoration(new VerticalSpaceItemDecoration(1));
 
         // Set adapter
         recyclerView.setAdapter(mAdapter);
 
         // Swipe to delete
-        //ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(mAdapter, this));
-        //itemTouchHelper.attachToRecyclerView(recyclerView);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(this));
+        itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
     public void showDetailView(int position) {
