@@ -22,7 +22,7 @@ public class Charts {
 
         ArrayList<Double> yPositions = new ArrayList<>();
 
-        // Calculate Y-positions for path
+        // Calculate Y-positions for price points
 
         double highest = getMaxValue(prices);
         double lowest = getMinValue(prices);
@@ -37,6 +37,7 @@ public class Charts {
 
         // DRAW
 
+        // width and height of bitmap
         int width = 1000;
         int height = 600;
 
@@ -49,12 +50,16 @@ public class Charts {
 
         // Draw line
 
+        // 0-1000 X divided by 11 gives 12 points with 0
+        // 0-100 Y will with heightMultiplier become 0-600
         float posX = width / 11.0f;
         float heightMultiplier = height / 100.0f;
 
+        // draw path, set first point, x=0
         Path path = new Path();
         path.moveTo(4, yPositions.get(11).floatValue() * heightMultiplier + 4);
 
+        // draw rest of the points (from left, old, to right, new; hence 11 - i, could also just reverse array..)
         for (int i = 1; i < 12; i++) {
             path.lineTo(posX * i, yPositions.get(11 - i).floatValue() * heightMultiplier);
         }
@@ -82,6 +87,7 @@ public class Charts {
 
     public static Bitmap getBarChart(double[] prices) {
 
+        // Better naming for readability
         double current = prices[0];
         double previousDay = prices[1];
         double week = prices[2];
@@ -105,7 +111,7 @@ public class Charts {
         double[] percentages = { percentDay, percentWeek, percentMonth, percentYear };
         //double[] percentages = { -3.1, 0.6, 1.8, 2.0 };
 
-        // Calculate baseline and high/low-values
+        // Calculate baseline (middleY) and high/low-values
 
         double highest = getMaxValue(percentages);
         double lowest = getMinValue(percentages);
@@ -125,7 +131,9 @@ public class Charts {
 
         double[] topBottomValues = new double[8]; // top and bottom for each bar (4 bars, 8 values)
 
+        // Do it for every rectangle
         for (int i = 0; i < 4; i++) {
+            // Both + and - values
             if (middleY > 0 && middleY < 200) {
                 if (percentages[i] == highest && middleY > 0 && middleY < 200) {
                     topBottomValues[i * 2] = 0.0;
@@ -144,6 +152,7 @@ public class Charts {
                     topBottomValues[i * 2 + 1] = middleY + (((200 - middleY) / Math.abs(lowest)) * Math.abs(percentages[i]));
                 }
             }
+            // Only + values
             if (middleY == 200) {
                 if (middleY == 200 && percentages[i] != highest && percentages[i] != lowest) {
                     topBottomValues[i * 2] = 200 / ((highest - lowest) / (percentages[i] - lowest));
@@ -158,6 +167,7 @@ public class Charts {
                     topBottomValues[i * 2 + 1] = 200.0;
                 }
             }
+            // Only - values
             if (middleY == 0) {
                 if (middleY == 0 && percentages[i] != highest && percentages[i] != lowest) {
                     topBottomValues[i * 2] = 0.0;
@@ -172,6 +182,7 @@ public class Charts {
                     topBottomValues[i * 2 + 1] = 200.0;
                 }
             }
+            // If percent = 0
             if (percentages[i] == 0) {
                 topBottomValues[i * 2] = middleY;
                 topBottomValues[i * 2 + 1] = middleY;
@@ -192,7 +203,7 @@ public class Charts {
         canvas.drawBitmap(barChartBitmap, 0, 0, paint);
         canvas.drawColor(Color.WHITE);
 
-        // Draw bars
+        // Draw bars/rectangles
 
         // YEAR
         if (percentages[3] > 0) { paint.setColor(blue); } else { paint.setColor(red); }

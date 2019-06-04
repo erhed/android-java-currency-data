@@ -22,6 +22,8 @@ import org.json.JSONObject;
 
 import java.util.Calendar;
 
+// Makes HTTP-requests to server api
+
 public class FXFetchData {
 
     public interface VolleyCallback {
@@ -57,6 +59,7 @@ public class FXFetchData {
 
         // Response
 
+        // Returns the current price asked for as a string
         Response.Listener<String> response_listener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -101,7 +104,7 @@ public class FXFetchData {
         return mRequestQueue;
     }
 
-    // Get dates for GET-request, weekends doesn't give data
+    // Get dates for GET-request, weekends gives no data
 
     public static String getDate(int time) {
 
@@ -157,6 +160,7 @@ public class FXFetchData {
         return date;
     }
 
+    // Insert zero if month or day is below 10
     public static String insertZero(int number) {
         String result;
         if (number < 10) {

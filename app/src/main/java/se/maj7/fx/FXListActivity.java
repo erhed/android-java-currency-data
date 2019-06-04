@@ -7,13 +7,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
 
 import java.util.ArrayList;
 
@@ -27,14 +23,15 @@ public class FXListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fx_list);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
+        /*FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //newList();
             }
-        });
+        });*/
 
+        // Reload-button
         /*ImageView reload = (ImageView) findViewById(R.id.reload);
         reload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,7 +40,7 @@ public class FXListActivity extends AppCompatActivity {
             }
         });*/
 
-        // Check if data retrieved
+        // Check if data retrieved and update list
         final Handler handler  = new Handler();
         final Runnable runnable = new Runnable() {
             @Override
@@ -61,6 +58,7 @@ public class FXListActivity extends AppCompatActivity {
 
         handler.postDelayed(runnable, 100);
 
+        // RecyclerView
         setupRecyclerView();
     }
 
@@ -84,6 +82,7 @@ public class FXListActivity extends AppCompatActivity {
         //itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
+    // Go to detail view when list item clicked
     public void showDetailView(int position) {
         FXListItem item = FXDatabase.shared.getItem(position);
         FXDatabase.shared.getDetailViewData(item.getCurrency1(), item.getCurrency2(), this);
@@ -92,6 +91,7 @@ public class FXListActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    // Not in use atm
     public void deleteListItem(int position) {
         FXDatabase.shared.deleteFromList(position);
     }

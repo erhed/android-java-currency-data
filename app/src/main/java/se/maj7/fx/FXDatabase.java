@@ -1,12 +1,11 @@
 package se.maj7.fx;
 
 import android.content.Context;
-import android.util.Log;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static se.maj7.fx.FXFetchData.*;
+
+// Data handler class, singleton
 
 public class FXDatabase {
 
@@ -22,6 +21,7 @@ public class FXDatabase {
         makeDummyList();
     }
 
+    // Get prices for list from server with FXFetchData
     public void getPrices(Context context) {
         for (final FXListItem item : mFXList) {
             getPrice(item.getCurrency1(), item.getCurrency2(), context, 0, new VolleyCallback() {
@@ -47,10 +47,7 @@ public class FXDatabase {
         return mFXList.get(index);
     }
 
-    /*public CurrencyPairInfoData getDetailData() {
-        return mDetailData;
-    }*/
-
+    // Data for detail view
     public CurrencyPairInfoData getInfoData() {
         return mDetailData;
     }
@@ -63,11 +60,11 @@ public class FXDatabase {
         listItemsLoaded = 0;
     }
 
-
     public int getListSize() {
         return mFXList.size();
     }
 
+    // Immutable list for now
     private void makeDummyList() {
         FXListItem item = new FXListItem("USD","SEK");
         mFXList.add(item);
@@ -109,7 +106,7 @@ public class FXDatabase {
         mFXList.remove(position);
     }
 
-    // DETAIL VIEW DATA
+    // DETAIL VIEW DATA from server with FXFetchData
 
     public void getDetailViewData(String currency1, String currency2, Context context) {
 

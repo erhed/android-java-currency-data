@@ -30,21 +30,24 @@ public class CurrencyPairInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_currency_pair_info);
 
+        // Get access to data
         CurrencyPairInfoData data = FXDatabase.shared.getInfoData();
 
+        // Set title
         TextView title = (TextView) findViewById(R.id.fxInfoTitleText);
         String titleString = data.getCurrency1() + "/" + data.getCurrency2();
         title.setText(titleString);
 
+        // Setup recyclerView
         setupRecyclerView();
 
+        // Loading screen
         loadingScreen = new Dialog(this);
         loadingScreen.setContentView(R.layout.dialog_loading_screen);
-
         loadingScreen.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         loadingScreen.show();
 
-        // Hide after some seconds
+        // Dismiss loading screen when data is loaded, data confirmation is checked with a timer
         final Handler handler  = new Handler();
         final Runnable runnable = new Runnable() {
             @Override
@@ -58,14 +61,12 @@ public class CurrencyPairInfoActivity extends AppCompatActivity {
                 }
             }
         };
-
         loadingScreen.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
                 handler.removeCallbacks(runnable);
             }
         });
-
         handler.postDelayed(runnable, 100);
     }
 
@@ -89,6 +90,7 @@ public class CurrencyPairInfoActivity extends AppCompatActivity {
         //itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
+    // Update screen when data is loaded
     public void isLoaded() {
         //setupRecyclerView();
         mAdapter.notifyDataSetChanged();

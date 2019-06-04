@@ -27,7 +27,6 @@ public class CurrencyPairInfoAdapter extends RecyclerView.Adapter<CurrencyPairIn
     @NonNull
     @Override
     public CurrencyPairInfoAdapter.ListItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         switch (viewType) {
             case 0:
                 View price = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_info_price, parent, false);
@@ -48,6 +47,7 @@ public class CurrencyPairInfoAdapter extends RecyclerView.Adapter<CurrencyPairIn
 
         CurrencyPairInfoData data = FXDatabase.shared.getInfoData();
 
+        // Price row
         if (position == 0) {
             holder.price_currency1.setText(data.getCurrency1());
             holder.price_currency2.setText(data.getCurrency2());
@@ -56,6 +56,7 @@ public class CurrencyPairInfoAdapter extends RecyclerView.Adapter<CurrencyPairIn
             holder.price_price.setText(priceCropped);
         }
 
+        // Line chart row
         if (position == 1) {
             holder.chart_chart.setImageBitmap(Charts.getLineChart(data.getPricesForLineChart()));
             for (int i=0; i<12; i++) {
@@ -64,6 +65,7 @@ public class CurrencyPairInfoAdapter extends RecyclerView.Adapter<CurrencyPairIn
             }
         }
 
+        // Bar chart row
         if (position == 2) {
             holder.bars_bars.setImageBitmap(Charts.getBarChart(data.getPricesForBars()));
 
@@ -88,14 +90,17 @@ public class CurrencyPairInfoAdapter extends RecyclerView.Adapter<CurrencyPairIn
 
     public class ListItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        // Price row
         TextView price_currency1;
         TextView price_currency2;
         TextView price_price;
 
+        // Line chart row
         ImageView chart_chart;
         TextView chart_date1;
         TextView chart_date2;
 
+        // Bar chart row
         ImageView bars_bars;
         TextView bars_day;
         TextView bars_week;
@@ -125,7 +130,6 @@ public class CurrencyPairInfoAdapter extends RecyclerView.Adapter<CurrencyPairIn
 
         @Override
         public void onClick(View view) {
-            //mActivity.showDetailView();
         }
     }
 }

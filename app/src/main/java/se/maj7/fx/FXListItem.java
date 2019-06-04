@@ -15,6 +15,8 @@ public class FXListItem {
         mCurrency2 = currency2;
     }
 
+    // GET
+
     public String getCurrency1() {
         return mCurrency1;
     }
@@ -30,6 +32,8 @@ public class FXListItem {
     public boolean getIsUp() {
         return mIsUp;
     }
+
+    // SET
 
     public void setPrice(float price) {
         mPrice = price;

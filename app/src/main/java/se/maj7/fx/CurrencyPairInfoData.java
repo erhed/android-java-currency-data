@@ -2,8 +2,7 @@ package se.maj7.fx;
 
 import android.util.Log;
 
-import java.util.Arrays;
-import java.util.Collections;
+// Data holder for detail view
 
 public class CurrencyPairInfoData {
 
@@ -15,7 +14,6 @@ public class CurrencyPairInfoData {
     private double mWeekPrice;
     private double mMonthPrice;
     private double mYearPrice;
-
     private double[] mMonths = new double[12];
 
     private int dataPointsFetched;
@@ -114,10 +112,6 @@ public class CurrencyPairInfoData {
 
     public void resetConfirmedDataPoints() {
         dataPointsFetched = 0;
-    }
-
-    public void resetPrices() {
-
     }
 
 }

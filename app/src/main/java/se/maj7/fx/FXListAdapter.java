@@ -39,7 +39,7 @@ public class FXListAdapter extends RecyclerView.Adapter<FXListAdapter.ListItemHo
             // List item
             FXListItem item = FXDatabase.shared.getItem(position);
 
-            // Pair
+            // Pair title
             String pair = item.getCurrency1() + "/" + item.getCurrency2();
             holder.mPair.setText(pair);
 
@@ -58,7 +58,7 @@ public class FXListAdapter extends RecyclerView.Adapter<FXListAdapter.ListItemHo
 
     @Override
     public int getItemCount() {
-        return FXDatabase.shared.getListSize() + 1;
+        return FXDatabase.shared.getListSize() + 1; // +1 for footer
     }
 
     public class ListItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -84,6 +84,7 @@ public class FXListAdapter extends RecyclerView.Adapter<FXListAdapter.ListItemHo
         }
     }
 
+    // Price with decimal point should always be 7 chars
     private String formatPrice(String result) {
         String price;
         if (result.length() == 6) {
