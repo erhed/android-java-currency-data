@@ -14,6 +14,7 @@ public class FXDatabase {
 
     private ArrayList<FXListItem> mFXList = new ArrayList<>();
     private static CurrencyPairInfoData mDetailData = new CurrencyPairInfoData();
+    private JSONSerializer mSerializer;
 
     private int listItemsLoaded = 0;
 
@@ -70,12 +71,42 @@ public class FXDatabase {
     private void makeDummyList() {
         FXListItem item = new FXListItem("USD","SEK");
         mFXList.add(item);
-        FXListItem item2 = new FXListItem("EUR","USD");
+        FXListItem item2 = new FXListItem("EUR","SEK");
         mFXList.add(item2);
-        FXListItem item3 = new FXListItem("GBP","USD");
+        FXListItem item3 = new FXListItem("DKK","SEK");
         mFXList.add(item3);
-        FXListItem item4 = new FXListItem("EUR","CHF");
+        FXListItem item4 = new FXListItem("NOK","SEK");
         mFXList.add(item4);
+        FXListItem item5 = new FXListItem("GBP","SEK");
+        mFXList.add(item5);
+        FXListItem item6 = new FXListItem("USD","JPY");
+        mFXList.add(item6);
+        FXListItem item8 = new FXListItem("EUR","JPY");
+        mFXList.add(item8);
+        FXListItem item9 = new FXListItem("GBP","USD");
+        mFXList.add(item9);
+    }
+
+    // FX LIST DATA HANDLING
+
+    /*public void saveList() {
+        try {
+            mSerializer.save(mFXList);
+        } catch(Exception e) {
+            Log.e("Error saving lists","", e);
+        }
+    }
+
+    public void loadList() {
+        try {
+            mFXList = mSerializer.load();
+        } catch (Exception e) {
+            Log.e("Error loading lists: ", "", e);
+        }
+    }*/
+
+    public void deleteFromList(int position) {
+        mFXList.remove(position);
     }
 
     // DETAIL VIEW DATA

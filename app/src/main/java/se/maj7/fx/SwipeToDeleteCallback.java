@@ -38,8 +38,7 @@ public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
         int position = viewHolder.getAdapterPosition();
 
-        // Delete shopping list (MainList) or list item (EditList)
-        //mActivity.delete
+        mActivity.deleteListItem(position);
     }
 
     @Override

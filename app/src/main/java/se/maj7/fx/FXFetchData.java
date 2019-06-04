@@ -117,7 +117,6 @@ public class FXFetchData {
             calendar.add(Calendar.DAY_OF_MONTH, -2);
         }
 
-
         if (time == CURRENT_DAY) {
 
         } else if (time == PREVIOUS_DAY) {
@@ -148,7 +147,6 @@ public class FXFetchData {
                 calendar.add(Calendar.DAY_OF_MONTH, -2);
             }
         }
-
 
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH) + 1; // January is 0

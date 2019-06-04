@@ -49,7 +49,10 @@ public class CurrencyPairInfoActivity extends AppCompatActivity {
         final Runnable runnable = new Runnable() {
             @Override
             public void run() {
+                handler.postDelayed(this, 100);
+                Log.i("TIMER", "EXECUTE");
                 if (FXDatabase.shared.getInfoData().getConfirmedDataPoints() == 16) {
+                    Log.i("TIMER", "DONE");
                     FXDatabase.shared.getInfoData().resetConfirmedDataPoints();
                     isLoaded();
                 }
@@ -63,7 +66,7 @@ public class CurrencyPairInfoActivity extends AppCompatActivity {
             }
         });
 
-        handler.postDelayed(runnable, 500);
+        handler.postDelayed(runnable, 100);
     }
 
     private void setupRecyclerView() {

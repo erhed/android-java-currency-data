@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 
@@ -34,12 +35,23 @@ public class FXListActivity extends AppCompatActivity {
             }
         });
 
-        // Hide after some seconds
+        /*ImageView reload = (ImageView) findViewById(R.id.reload);
+        reload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAdapter.notifyDataSetChanged();
+            }
+        });*/
+
+        // Check if data retrieved
         final Handler handler  = new Handler();
         final Runnable runnable = new Runnable() {
             @Override
             public void run() {
+                handler.postDelayed(this, 100);
+                Log.i("TIMER", "EXECUTE list");
                 if (FXDatabase.shared.getItemsLoaded() == FXDatabase.shared.getListSize()) {
+                    Log.i("TIMER", "DONE list");
                     FXDatabase.shared.resetItemsLoaded();
                     mAdapter.notifyDataSetChanged();
                     handler.removeCallbacks(this);
@@ -47,7 +59,7 @@ public class FXListActivity extends AppCompatActivity {
             }
         };
 
-        handler.postDelayed(runnable, 500);
+        handler.postDelayed(runnable, 100);
 
         setupRecyclerView();
     }
@@ -68,8 +80,8 @@ public class FXListActivity extends AppCompatActivity {
         recyclerView.setAdapter(mAdapter);
 
         // Swipe to delete
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(this));
-        itemTouchHelper.attachToRecyclerView(recyclerView);
+        //ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(this));
+        //itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
     public void showDetailView(int position) {
@@ -78,5 +90,9 @@ public class FXListActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, CurrencyPairInfoActivity.class);
         startActivity(intent);
+    }
+
+    public void deleteListItem(int position) {
+        FXDatabase.shared.deleteFromList(position);
     }
 }

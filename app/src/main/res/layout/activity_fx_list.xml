@@ -24,6 +24,7 @@
             android:layout_height="70dp"
             android:background="@color/colorPrimary"
             android:gravity="center"
+            android:paddingLeft="30dp"
             android:text="FX"
             android:textColor="@android:color/white"
             android:textSize="24sp"
@@ -44,6 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="40dp"
         android:layout_marginBottom="40dp"
+        android:alpha="0"
         android:src="@drawable/ic_add_white_24dp"
         android:tint="#FFFFFF"
         app:backgroundTint="@color/colorPrimaryDark"
@@ -51,5 +53,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="23dp"
+        android:layout_marginEnd="23dp"
+        android:layout_marginRight="23dp"
+        android:alpha="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_add_white_24dp" />
 
 </android.support.constraint.ConstraintLayout>

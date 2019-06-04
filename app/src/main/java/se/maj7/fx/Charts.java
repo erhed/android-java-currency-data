@@ -56,21 +56,26 @@ public class Charts {
         path.moveTo(4, yPositions.get(11).floatValue() * heightMultiplier + 4);
 
         for (int i = 1; i < 12; i++) {
-            if (i == 11) {
-                path.lineTo(posX * i - 4, yPositions.get(11 - i).floatValue() * heightMultiplier - 4);
-            } else {
-                path.lineTo(posX * i, yPositions.get(11 - i).floatValue() * heightMultiplier);
-            }
+            path.lineTo(posX * i, yPositions.get(11 - i).floatValue() * heightMultiplier);
         }
 
         // Line settings
 
         paint.setAntiAlias(true);
         paint.setFilterBitmap(true);
-        paint.setColor(blue);
-        paint.setStrokeWidth(14);
+        paint.setColor(Color.parseColor("#0f3375"));
+        paint.setStrokeWidth(12);
         paint.setStyle(Paint.Style.STROKE);
         canvas.drawPath(path, paint);
+
+        // Circles
+
+        for (int i = 1; i < 12; i++) {
+            paint.setColor(Color.parseColor("#0f3375"));
+            canvas.drawCircle(posX * i, yPositions.get(11 - i).floatValue() * heightMultiplier, 8, paint);
+            //paint.setColor(Color.WHITE);
+            //canvas.drawCircle(posX * i, yPositions.get(11 - i).floatValue() * heightMultiplier, 5, paint);
+        }
 
         return lineChartBitmap;
     }
@@ -118,7 +123,7 @@ public class Charts {
 
         // Calculate bars top and bottom Y-positions
 
-        double[] topBottomValues = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 }; // top and bottom for each bar (4 bars, 8 values)
+        double[] topBottomValues = new double[8]; // top and bottom for each bar (4 bars, 8 values)
 
         for (int i = 0; i < 4; i++) {
             if (middleY > 0 && middleY < 200) {

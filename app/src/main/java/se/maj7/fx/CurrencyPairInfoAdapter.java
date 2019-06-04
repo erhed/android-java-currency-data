@@ -51,7 +51,9 @@ public class CurrencyPairInfoAdapter extends RecyclerView.Adapter<CurrencyPairIn
         if (position == 0) {
             holder.price_currency1.setText(data.getCurrency1());
             holder.price_currency2.setText(data.getCurrency2());
-            holder.price_price.setText(String.format("%.5f", data.getCurrentPrice()));
+            String priceFormatted = String.format("%.5f", data.getCurrentPrice());
+            String priceCropped = priceFormatted.substring(0,7);
+            holder.price_price.setText(priceCropped);
         }
 
         if (position == 1) {
@@ -67,34 +69,16 @@ public class CurrencyPairInfoAdapter extends RecyclerView.Adapter<CurrencyPairIn
 
             String[] percent = FXDatabase.shared.getInfoData().getPercentagesForBars();
 
-            String day = percent[0] + "%";
-            String week = percent[1] + "%";
-            String month = percent[2] + "%";
-            String year = percent[3] + "%";
+            String day = (percent[0].charAt(0) != '-') ? "+" + percent[0] + "%" : percent[0] + "%";
+            String week = (percent[1].charAt(0) != '-') ? "+" + percent[1] + "%" : percent[1] + "%";
+            String month = (percent[2].charAt(0) != '-') ? "+" + percent[2] + "%" : percent[2] + "%";
+            String year = (percent[3].charAt(0) != '-') ? "+" + percent[3] + "%" : percent[3] + "%";
 
             holder.bars_day.setText(day);
             holder.bars_week.setText(week);
             holder.bars_month.setText(month);
             holder.bars_year.setText(year);
         }
-
-        /*// List item
-        FXListItem item = FXDatabase.shared.getItem(position);
-
-        // Pair
-        String pair = item.getCurrency1() + "/" + item.getCurrency2();
-        holder.mPair.setText(pair);
-
-        // Price
-        String price = formatPrice(String.valueOf(item.getPrice()));
-        holder.mPrice.setText(price);
-
-        // Arrow
-        if (item.getIsUp() == true) {
-            holder.mArrow.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.arrow_up));
-        } else {
-            holder.mArrow.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.arrow_down));
-        }*/
     }
 
     @Override
